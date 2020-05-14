@@ -2,14 +2,14 @@ import request from '@/utils/request'
 
 export function fetchList() {
   return request({
-    url: '/category',
+    url: '/tag',
     method: 'get'
   })
 }
 
 export function fetchDetail(id) {
   return request({
-    url: '/category/detail',
+    url: '/tag/detail',
     method: 'get',
     params: { id }
   })
@@ -25,7 +25,7 @@ export function fetchPv(pv) {
 
 export function create(data) {
   return request({
-    url: '/category/create',
+    url: '/tag/create',
     method: 'put',
     data
   })
@@ -33,7 +33,7 @@ export function create(data) {
 
 export function update(data) {
   return request({
-    url: '/category/status',
+    url: '/tag/status',
     method: 'post',
     data
   })
