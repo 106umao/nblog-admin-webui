@@ -30,6 +30,21 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
+
+// # 这里配置角色常量  (不生效。。。直接配置到router文件里吧。。)
+export const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN'
+export const ROLE_SYSTEM_ADMIN = 'ROLE_SYSTEM_ADMIN'
+export const ROLE_RESOURCE_ADMIN = 'ROLE_RESOURCE_ADMIN'
+export const ROLE_USER_ADMIN = 'ROLE_USER_ADMIN'
+export const ROLE_ROLE_ADMIN = 'ROLE_ROLE_ADMIN'
+export const ROLE_ARTICLE_ADMIN = 'ROLE_ARTICLE_ADMIN'
+export const ROLE_TAG_ADMIN = 'ROLE_TAG_ADMIN'
+export const ROLE_COMMENT_ADMIN = 'ROLE_COMMENT_ADMIN'
+export const ROLE_REPLY_ADMIN = 'ROLE_REPLY_ADMIN'
+export const ROLE_ADMIN = 'ROLE_ADMIN'
+export const ROLE_USER = 'ROLE_USER'
+export const ROLE_CATEGORY_ADMIN = 'ROLE_CATEGORY_ADMIN'
+
 export const constantRoutes = [
   {
     path: '/login',
@@ -53,114 +68,244 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
-  },
+  }
 
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
+  // {
+  //   path: '/example',
+  //   component: Layout,
+  //   redirect: '/example/table',
+  //   name: 'Example',
+  //   meta: { title: 'Example', icon: 'example' },
+  //   children: [
+  //     {
+  //       path: 'table',
+  //       name: 'Table',
+  //       component: () => import('@/views/table/index'),
+  //       meta: { title: 'Table', icon: 'table' }
+  //     },
+  //     {
+  //       path: 'tree',
+  //       name: 'Tree',
+  //       component: () => import('@/views/tree/index'),
+  //       meta: { title: 'Tree', icon: 'tree' }
+  //     }
+  //   ]
+  // },
 
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
+  // {
+  //   path: '/form',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'Form',
+  //       component: () => import('@/views/form/index'),
+  //       meta: { title: 'Form', icon: 'form' }
+  //     }
+  //   ]
+  // },
 
+  // {
+  //   path: '/nested',
+  //   component: Layout,
+  //   redirect: '/nested/menu1',
+  //   name: 'Nested',
+  //   meta: {
+  //     title: 'Nested',
+  //     icon: 'nested'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'menu1',
+  //       component: () => import('@/views/nested/menu1/index'), // Parent router-view
+  //       name: 'Menu1',
+  //       meta: { title: 'Menu1' },
+  //       children: [
+  //         {
+  //           path: 'menu1-1',
+  //           component: () => import('@/views/nested/menu1/menu1-1'),
+  //           name: 'Menu1-1',
+  //           meta: { title: 'Menu1-1' }
+  //         },
+  //         {
+  //           path: 'menu1-2',
+  //           component: () => import('@/views/nested/menu1/menu1-2'),
+  //           name: 'Menu1-2',
+  //           meta: { title: 'Menu1-2' },
+  //           children: [
+  //             {
+  //               path: 'menu1-2-1',
+  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
+  //               name: 'Menu1-2-1',
+  //               meta: { title: 'Menu1-2-1' }
+  //             },
+  //             {
+  //               path: 'menu1-2-2',
+  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
+  //               name: 'Menu1-2-2',
+  //               meta: { title: 'Menu1-2-2' }
+  //             }
+  //           ]
+  //         },
+  //         {
+  //           path: 'menu1-3',
+  //           component: () => import('@/views/nested/menu1/menu1-3'),
+  //           name: 'Menu1-3',
+  //           meta: { title: 'Menu1-3' }
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       path: 'menu2',
+  //       component: () => import('@/views/nested/menu2/index'),
+  //       meta: { title: 'menu2' }
+  //     }
+  //   ]
+  // },
+
+  // {
+  //   path: 'external-link',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
+  //       meta: { title: 'External Link', icon: 'link' }
+  //     }
+  //   ]
+  // },
+
+  // 404 page must be placed at the end !!!
+]
+
+/**
+ * asyncRoutes
+ * the routes that need to be dynamically loaded based on user roles
+ */
+export const asyncRoutes = [
   {
-    path: '/nested',
+    path: '/system',
     component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
+    name: '系统管理',
+    redirect: '/system/user',
     meta: {
-      title: 'Nested',
-      icon: 'nested'
+      title: '系统管理',
+      icon: 'system',
+      roles: [ROLE_SUPER_ADMIN, ROLE_SYSTEM_ADMIN, ROLE_USER_ADMIN, ROLE_ROLE_ADMIN]
     },
     children: [
       {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
+        path: 'user',
+        name: '用户管理',
+        component: () => import('@/views/system/user/index'),
+        meta: {
+          title: '用户管理',
+          icon: 'UserSettings',
+          roles: [ROLE_SUPER_ADMIN, ROLE_USER_ADMIN]
+        }
       },
       {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
+        path: 'role',
+        name: '角色管理',
+        component: () => import('@/views/system/role/index'),
+        meta: {
+          title: '角色管理',
+          icon: 'role',
+          roles: [ROLE_SUPER_ADMIN, ROLE_SYSTEM_ADMIN, ROLE_ROLE_ADMIN]
+        }
       }
     ]
   },
-
   {
-    path: 'external-link',
+    path: '/resource',
     component: Layout,
+    name: '资源管理',
+    redirect: '/resource/article',
+    meta: {
+      title: '资源管理',
+      icon: 'article',
+      roles: [
+        ROLE_SUPER_ADMIN,
+        ROLE_RESOURCE_ADMIN,
+        ROLE_ARTICLE_ADMIN,
+        ROLE_CATEGORY_ADMIN,
+        ROLE_TAG_ADMIN,
+        ROLE_COMMENT_ADMIN,
+        ROLE_REPLY_ADMIN
+      ]
+    },
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        path: 'article',
+        name: '文章管理',
+        component: () => import('@/views/resource/article/index'),
+        meta: {
+          title: '文章管理',
+          icon: 'article1',
+          roles: [
+            ROLE_SUPER_ADMIN,
+            ROLE_RESOURCE_ADMIN,
+            ROLE_ARTICLE_ADMIN
+          ]
+        }
+      },
+      {
+        path: 'category',
+        name: '分类管理',
+        component: () => import('@/views/resource/category/index'),
+        meta: {
+          title: '分类管理',
+          icon: 'category',
+          roles: [
+            ROLE_SUPER_ADMIN,
+            ROLE_RESOURCE_ADMIN,
+            ROLE_CATEGORY_ADMIN
+          ]
+        }
+      },
+      {
+        path: 'tag',
+        name: '标签管理',
+        component: () => import('@/views/resource/tag/index'),
+        meta: {
+          title: '标签管理',
+          icon: 'cc-tag',
+          roles: [
+            ROLE_SUPER_ADMIN,
+            ROLE_RESOURCE_ADMIN,
+            ROLE_TAG_ADMIN
+          ]
+        }
+      },
+      {
+        path: 'comment',
+        name: '评论管理',
+        component: () => import('@/views/resource/comment/index'),
+        meta: {
+          title: '评论管理',
+          icon: 'comment1',
+          roles: [
+            ROLE_SUPER_ADMIN,
+            ROLE_RESOURCE_ADMIN,
+            ROLE_COMMENT_ADMIN
+          ]
+        }
+      }, {
+        path: 'reply',
+        name: '回复管理',
+        component: () => import('@/views/resource/reply/index'),
+        meta: {
+          title: '回复管理',
+          icon: 'reply',
+          roles: [
+            ROLE_SUPER_ADMIN,
+            ROLE_RESOURCE_ADMIN,
+            ROLE_REPLY_ADMIN
+          ]
+        }
       }
     ]
   },
-
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  { path: '*', redirect: '/404', hidden: true, meta: { title: '404', roles: ROLE_USER }}
 ]
 
 const createRouter = () => new Router({
@@ -178,3 +323,4 @@ export function resetRouter() {
 }
 
 export default router
+
