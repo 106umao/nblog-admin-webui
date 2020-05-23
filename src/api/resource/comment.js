@@ -7,34 +7,10 @@ export function fetchList() {
   })
 }
 
-export function fetchDetail(id) {
+export function remove(data) {
   return request({
-    url: '/comment/detail',
-    method: 'get',
-    params: { id }
-  })
-}
-
-export function fetchPv(pv) {
-  return request({
-    url: '/vue-element-admin/article/pv',
-    method: 'get',
-    params: { pv }
-  })
-}
-
-export function create(data) {
-  return request({
-    url: '/comment/create',
-    method: 'put',
-    data
-  })
-}
-
-export function update(data) {
-  return request({
-    url: '/comment/status',
-    method: 'post',
+    url: '/comment',
+    method: 'delete',
     data
   })
 }
