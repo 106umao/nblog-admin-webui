@@ -9,7 +9,7 @@ export function fetchList() {
 
 export function fetchDetail(id) {
   return request({
-    url: '/tag/detail',
+    url: '/tag',
     method: 'get',
     params: { id }
   })
@@ -25,7 +25,7 @@ export function fetchPv(pv) {
 
 export function create(data) {
   return request({
-    url: '/tag/create',
+    url: '/tag',
     method: 'put',
     data
   })
@@ -33,8 +33,17 @@ export function create(data) {
 
 export function update(data) {
   return request({
-    url: '/tag/status',
+    url: '/tag',
     method: 'post',
     data
   })
 }
+
+export function remove(data) {
+  return request({
+    url: '/tag',
+    method: 'delete',
+    data
+  })
+}
+

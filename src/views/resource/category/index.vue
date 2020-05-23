@@ -4,7 +4,6 @@
       <el-button type="primary" @click="isShowDrawer=!isShowDrawer">添加分类</el-button>
       <el-drawer
         ref="drawer"
-        :title="isedit?'修改分类':'添加分类'"
         :before-close="handleClose"
         :visible.sync="isShowDrawer"
         direction="ltr"
@@ -16,7 +15,7 @@
               <el-input v-model="addForm.name" />
             </el-form-item>
             <el-form-item label="父分类">
-              <el-select v-model="addForm.parentId" placeholder="请选择活动区域">
+              <el-select v-model="addForm.parentId" placeholder="选择一个父类（可不选）">
                 <template v-for="category in list">
                   <el-option :key="category.id" :label="category.name" :value="category.id" />
                 </template>
@@ -36,13 +35,23 @@
       </el-drawer>
     </div>
     <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" label="ID" width="80">
+      <el-table-column
+        align="center"
+        fixed="left"
+        label="ID"
+        width="80"
+      >
         <template slot-scope="{row}">
           <span>{{ row.id }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="180px" align="center" label="Name">
+      <el-table-column
+        width="180px"
+        fixed="left"
+        align="center"
+        label="Name"
+      >
         <template slot-scope="{row}">
           <span>{{ row.name }}</span>
         </template>
@@ -60,7 +69,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column class-name="status-col" align="center" label="JoinTime" width="200">
+      <el-table-column class-name="status-col" align="center" label="CreateTime" width="200">
         <template slot-scope="{row}">
           <span>{{ formateDate(row.createTime) }}</span>
         </template>
@@ -71,7 +80,12 @@
           <span>{{ formateDate(row.updateTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="Actions" width="200">
+      <el-table-column
+        align="center"
+        fixed="right"
+        label="Actions"
+        width="200"
+      >
         <template slot-scope="{row}">
           <el-button-group>
             <el-button
@@ -128,7 +142,6 @@ export default {
   },
   methods: {
     handleClose(ref) {
-      console.log(ref)
       this.addForm = {}
       this.loadding = false
       this.isedit = false
@@ -149,15 +162,18 @@ export default {
     },
     async onSubmit(ref) {
       this.loadding = true
-      let code = null
+      let res = null
       if (this.isedit === true) {
-        code = await update(this.addForm).code
+        res = await update(this.addForm)
         this.isedit = false
       } else {
-        code = await create(this.addForm).code
+        res = await create(this.addForm)
       }
+      const { code } = res
+
       if (code === 200) {
         this.getList()
+        this.$message.success = 'add success'
       } else {
         this.$message.error = 'service block'
       }
@@ -186,10 +202,13 @@ export default {
     },
     async getList() {
       this.listLoading = true
-      const { data } = await fetchList()
-      console.log(data)
-      this.list = data
-      this.listLoading = false
+      const { data, code } = await fetchList()
+      if (code === 200) {
+        this.list = data
+        this.listLoading = false
+      } else {
+        this.$message.error = 'service block'
+      }
     }
   }
 }
