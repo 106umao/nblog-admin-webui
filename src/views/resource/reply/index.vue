@@ -13,6 +13,12 @@
         </template>
       </el-table-column>
 
+      <el-table-column width="120px" align="center" label="CommentId">
+        <template slot-scope="{row}">
+          <span>{{ row.commentId }}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column width="120px" align="center" label="FromUserId">
         <template slot-scope="{row}">
           <span>{{ row.fromUserId }}</span>
