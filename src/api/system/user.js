@@ -38,3 +38,19 @@ export function update(data) {
     data
   })
 }
+
+export function dispatchRoles(data) {
+  return request({
+    url: '/user/dispatchRoles',
+    method: 'post',
+    data
+  })
+}
+
+export function remove(data) {
+  return request({
+    url: '/user',
+    method: 'delete',
+    data
+  })
+}

@@ -65,13 +65,13 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="120px" align="center" label="Content">
+      <el-table-column width="80px" fixed="right" align="center" label="Content">
         <template slot-scope="{row}">
           <el-button type="text" size="mini" @click="showDetail(row)">阅览</el-button>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="Actions" width="200">
+      <el-table-column align="center" fixed="right" label="Actions" width="150">
         <template slot-scope="{row}">
           <el-button-group>
             <el-button

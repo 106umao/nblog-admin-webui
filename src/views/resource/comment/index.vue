@@ -31,7 +31,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column fixed="right" class-name="status-col" align="center" label="Disable" width="200">
+      <el-table-column fixed="right" class-name="status-col" align="center" label="Actions" width="200">
         <template slot-scope="{row}">
           <el-button size="small" type="danger" icon="el-icon-delete" @click="deleteOne(row)" />
         </template>
